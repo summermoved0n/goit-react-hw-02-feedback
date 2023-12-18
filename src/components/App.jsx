@@ -3,6 +3,7 @@ import { Statistics } from './Statistics/Statistics';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Section } from './Section/Section';
 import { Notification } from './Notification/Notification';
+import css from './App.module.css';
 
 export class App extends Component {
   state = {
@@ -36,7 +37,7 @@ export class App extends Component {
     const optionsButton = Object.keys(this.state);
 
     return (
-      <Fragment>
+      <div className={css.app_conteiner}>
         <Section title="Please leave feedback">
           <FeedbackOptions
             options={optionsButton}
@@ -56,7 +57,7 @@ export class App extends Component {
             />
           )}
         </Section>
-      </Fragment>
+      </div>
     );
   }
 }
