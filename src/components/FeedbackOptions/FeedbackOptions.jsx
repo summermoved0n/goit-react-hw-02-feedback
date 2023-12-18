@@ -1,12 +1,13 @@
-import css from './FeedbackOptions.module.css';
-
-export const FeedbackOptions = () => {
+export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
     <div>
-      <h2>Please leave feedback</h2>
-      <button>Good</button>
-      <button>Neutral</button>
-      <button>Bad</button>
+      {options.map(option => {
+        return (
+          <button key={option} onClick={() => onLeaveFeedback(option)}>
+            {option}
+          </button>
+        );
+      })}
     </div>
   );
 };

@@ -9,7 +9,6 @@ export const Statistics = ({
 }) => {
   return (
     <div>
-      <h2>Statistic</h2>
       <ul>
         <li>Good: {good}</li>
         <li>Neutral: {neutral}</li>

@@ -1,36 +1,61 @@
 import { Component, Fragment } from 'react';
 import { Statistics } from './Statistics/Statistics';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Section } from './Section/Section';
+import { Notification } from './Notification/Notification';
 
 export class App extends Component {
   state = {
-    good: 1,
+    good: 0,
     neutral: 0,
     bad: 0,
   };
 
+  handleIncrement = name => {
+    this.setState(prevState => ({
+      [name]: prevState[name] + 1,
+    }));
+  };
+
   countTotalFeedback = () => {
-    return this.state.good + this.state.neutral + this.state.bad;
+    const { good, neutral, bad } = this.state;
+    const total = good + neutral + bad;
+    return total;
   };
 
   countPositiveFeedbackPercentage = () => {
-    const totalStatesValue =
-      this.state.good + this.state.neutral + this.state.bad;
-    const feedbackPercentage = (this.state.good / totalStatesValue) * 100;
+    const { good } = this.state;
+    const feedbackPercentage = Math.round(
+      (good / this.countTotalFeedback()) * 100
+    );
     return feedbackPercentage + '%';
   };
 
   render() {
+    const { good, neutral, bad } = this.state;
+    const optionsButton = Object.keys(this.state);
+
     return (
       <Fragment>
-        <FeedbackOptions options={1} onLeaveFeedback={1}></FeedbackOptions>
-        <Statistics
-          good={this.state.good}
-          neutral={this.state.neutral}
-          bad={this.state.bad}
-          total={this.countTotalFeedback}
-          positivePercentage={this.countPositiveFeedbackPercentage}
-        />
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={optionsButton}
+            onLeaveFeedback={this.handleIncrement}
+          />
+        </Section>
+        <Section title="Statistics">
+          {this.countTotalFeedback() === 0 ? (
+            <Notification message="There is no feedback" />
+          ) : (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={this.countTotalFeedback}
+              positivePercentage={this.countPositiveFeedbackPercentage}
+            />
+          )}
+        </Section>
       </Fragment>
     );
   }
